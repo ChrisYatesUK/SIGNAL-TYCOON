@@ -1,0 +1,29 @@
+AssetKey,ExactSourcePath,SourceTriangulationEstimate,SourceMaterialsReferenced,PlanningDrawEstimate,Status
+A01.Desk,Models/OBJ format/desk.obj,352,2,1–3,Source counted; Roblox import/profile pending
+A01.Chair,Models/OBJ format/chairDesk.obj,656,2,1–3,Source counted; Roblox import/profile pending
+A01.Sofa,Models/OBJ format/loungeSofa.obj,256,2,1–3,Source counted; Roblox import/profile pending
+A01.Table,Models/OBJ format/tableCoffee.obj,248,1,1–3,Source counted; Roblox import/profile pending
+A01.Shelf,Models/OBJ format/bookcaseOpen.obj,640,1,1–3,Source counted; Roblox import/profile pending
+A01.Plant,Models/OBJ format/pottedPlant.obj,104,3,1–3,Source counted; Roblox import/profile pending
+A01.Armchair,Models/OBJ format/loungeChair.obj,256,2,1–3,Source counted; Roblox import/profile pending
+A02.Upright,Models/OBJ format/arcade-machine.obj,784,1,1–3,Source counted; Roblox import/profile pending
+A03.Window,Models/OBJ format/wall-window-square.obj,192,2,1–3,Source counted; Roblox import/profile pending
+A04.Panel,PNG/Grey/Default/button_rectangle_flat.png,n/a,n/a,0 native / 1 image,Source counted; Roblox import/profile pending
+A04.Check,PNG/Grey/Default/check_square_grey_checkmark.png,n/a,n/a,0 native / 1 image,Source counted; Roblox import/profile pending
+A04.Cross,PNG/Grey/Default/check_square_grey_cross.png,n/a,n/a,0 native / 1 image,Source counted; Roblox import/profile pending
+A04.Slider,PNG/Grey/Default/slide_horizontal_grey.png,n/a,n/a,0 native / 1 image,Source counted; Roblox import/profile pending
+A04.Handle,PNG/Grey/Default/slide_hangle.png,n/a,n/a,0 native / 1 image,Source counted; Roblox import/profile pending
+A05.Rotate,Keyboard & Mouse/Default/keyboard_r.png,n/a,n/a,1 image,Source counted; Roblox import/profile pending
+A05.Cancel,Keyboard & Mouse/Default/keyboard_escape.png,n/a,n/a,1 image,Source counted; Roblox import/profile pending
+A05.Mouse,Keyboard & Mouse/Default/mouse_left.png,n/a,n/a,1 image,Source counted; Roblox import/profile pending
+A05.Touch,Touch/Default/touch_tap.png,n/a,n/a,1 image,Source counted; Roblox import/profile pending
+A05.Confirm,Generic/Default/generic_button_circle.png,n/a,n/a,1 image,Source counted; Roblox import/profile pending
+A05.Back,Generic/Default/generic_button_square.png,n/a,n/a,1 image,Source counted; Roblox import/profile pending
+A06.Place,Audio/click_001.ogg,n/a,n/a,0,Source counted; Roblox import/profile pending
+A06.Cancel,Audio/back_001.ogg,n/a,n/a,0,Source counted; Roblox import/profile pending
+A06.Collect,Audio/confirmation_001.ogg,n/a,n/a,0,Source counted; Roblox import/profile pending
+A06.Upgrade,Audio/confirmation_002.ogg,n/a,n/a,0,Source counted; Roblox import/profile pending
+A06.Error,Audio/error_001.ogg,n/a,n/a,0,Source counted; Roblox import/profile pending
+A07.Complete,PNG (Transparent)/circle_01.png,n/a,n/a,1 material + overdraw,Source counted; Roblox import/profile pending
+A07.Reveal,PNG (Transparent)/star_01.png,n/a,n/a,1 material + overdraw,Source counted; Roblox import/profile pending
+A07.Award,PNG (Transparent)/star_04.png,n/a,n/a,1 material + overdraw,Source counted; Roblox import/profile pending

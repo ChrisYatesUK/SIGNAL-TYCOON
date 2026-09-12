@@ -1,0 +1,209 @@
+Key,Context,Example,Source,en-us
+ui.unavailable,,,Unavailable,Unavailable
+ui.loading,,,Loading your studio…,Loading your studio…
+ui.close,,,Close,Close
+ui.cancel,,,Cancel,Cancel
+ui.confirm,,,Confirm,Confirm
+ui.pending,,,Waiting for server confirmation…,Waiting for server confirmation…
+ui.refreshing,,,Updating your studio…,Updating your studio…
+ui.unknown,,,Still checking this request. Reconnect to reconcile before trying again.,Still checking this request. Reconnect to reconcile before trying again.
+ui.cooling,,,Please wait for the review period to finish.,Please wait for the review period to finish.
+ui.quoteChanged,,,Your choices changed. Refresh the preview before confirming.,Your choices changed. Refresh the preview before confirming.
+ui.offline,,,Connection unavailable. Your changes have not been confirmed.,Connection unavailable. Your changes have not been confirmed.
+ui.selected,,,Selected · {label},Selected · {label}
+ui.progress,,,{current} / {maximum},{current} / {maximum}
+timer.checking,,,Checking server status…,Checking server status…
+timer.remaining,,,{minutes}:{seconds} remaining,{minutes}:{seconds} remaining
+nav.settings,,,Settings,Settings
+nav.build,,,Build,Build
+nav.crew,,,Crew,Crew
+nav.produce,,,Produce,Produce
+nav.collection,,,Collection,Collection
+nav.chart,,,Chart,Chart
+nav.market,,,Market,Market
+hud.balances,,,"Credits {credits}
+Followers {followers}","Credits {credits}
+Followers {followers}"
+hud.partner,,,Partnership · {name},Partnership · {name}
+partner.solo,,,Solo studio,Solo studio
+job.idle,,,Choose your next production,Choose your next production
+job.rendering,,,Production rendering,Production rendering
+job.ready,,,Ready to collect,Ready to collect
+job.collected,,,Drop collected,Drop collected
+prompt.keyboard,,,Mouse to select · Esc to close,Mouse to select · Esc to close
+prompt.touch,,,Tap to select · Close to return,Tap to select · Close to return
+prompt.gamepad,,,Select to focus · Confirm / Back,Select to focus · Confirm / Back
+settings.summary,,,Effects: {effects} · Sound: {volume}%,Effects: {effects} · Sound: {volume}%
+settings.reduced,,,Reduced,Reduced
+settings.full,,,Standard,Standard
+preview.only,,,Design preview only. No gameplay action was performed.,Design preview only. No gameplay action was performed.
+rarity.common,,,Common,Common
+rarity.uncommon,,,Uncommon,Uncommon
+rarity.rare,,,Rare,Rare
+rarity.epic,,,Epic,Epic
+card.metadata,,,"{category} · {series}
+Quality {quality} · Created {created}
+Original creator: {creator}
+Current owner: {owner}
+Drop ID: {id}","{category} · {series}
+Quality {quality} · Created {created}
+Original creator: {creator}
+Current owner: {owner}
+Drop ID: {id}"
+chart.interest,,,Audience Interest: {share}% · published game rule,Audience Interest: {share}% · published game rule
+chart.provisional,,,Your provisional score: {score}. Later productions can change the result.,Your provisional score: {score}. Later productions can change the result.
+crew.detail,,,"{name} · {role}
+Level {level} · {assignment}","{name} · {role}
+Level {level} · {assignment}"
+screen.HUD,,,HUD,HUD
+screen.BuildCatalogue,,,Build catalogue,Build catalogue
+screen.CrewPanel,,,Crew,Crew
+screen.ProductionPanel,,,Production,Production
+screen.CollectionPanel,,,Collection,Collection
+screen.ChartBoard,,,Pulse Chart,Pulse Chart
+screen.PartnershipPanel,,,Partnership,Partnership
+screen.MarketplaceHub,,,Marketplace,Marketplace
+screen.ReportDialog,,,Report & block,Report & block
+screen.Settings,,,Settings,Settings
+copy.1,,,Editing desk · 8×4,Editing desk · 8×4
+copy.2,,,Camera I · 2×2,Camera I · 2×2
+copy.3,,,Potted plant · 2×2,Potted plant · 2×2
+copy.4,,,Catalogue,Catalogue
+copy.5,,,Selected item: earned unlock. Price and availability must come from the live catalogue.,Selected item: earned unlock. Price and availability must come from the live catalogue.
+copy.6,,,Preview selected item,Preview selected item
+copy.7,,,Desk in this studio,Desk in this studio
+copy.8,,,Owned placement,Owned placement
+copy.9,,,Move selected placement,Move selected placement
+copy.10,,,Accent,Accent
+copy.11,,,Recolour slot,Recolour slot
+copy.12,,,Cyan,Cyan
+copy.13,,,Violet,Violet
+copy.14,,,Coral,Coral
+copy.15,,,Colour,Colour
+copy.16,,,Apply colour,Apply colour
+copy.17,,,Store this item? You keep ownership; no Credits are refunded.,Store this item? You keep ownership; no Credits are refunded.
+copy.18,,,Store selected placement,Store selected placement
+copy.19,,,Placement controls use a local preview supplied by your placement adapter.,Placement controls use a local preview supplied by your placement adapter.
+copy.20,,,Nudge back · 2 studs,Nudge back · 2 studs
+copy.21,,,Nudge left · 2 studs,Nudge left · 2 studs
+copy.22,,,Nudge right · 2 studs,Nudge right · 2 studs
+copy.23,,,Nudge forward · 2 studs,Nudge forward · 2 studs
+copy.24,,,Rotate · 90°,Rotate · 90°
+copy.25,,,Cancel placement,Cancel placement
+copy.26,,,Place here,Place here
+copy.27,,,Remy Byte · Editor,Remy Byte · Editor
+copy.28,,,Ari Frame · Camera Operator,Ari Frame · Camera Operator
+copy.29,,,Choose crew member,Choose crew member
+copy.30,,,Starter production station,Starter production station
+copy.31,,,Assign to station,Assign to station
+copy.32,,,Confirm the server-provided hire cost and member before hiring.,Confirm the server-provided hire cost and member before hiring.
+copy.33,,,Review hire,Review hire
+copy.34,,,Confirm the server-provided upgrade cost and XP requirement.,Confirm the server-provided upgrade cost and XP requirement.
+copy.35,,,Review level upgrade,Review level upgrade
+copy.36,,,Unassign crew,Unassign crew
+copy.37,,,Assign crew,Assign crew
+copy.38,,,Gaming,Gaming
+copy.39,,,Comedy,Comedy
+copy.40,,,Music,Music
+copy.41,,,1 · Choose category,1 · Choose category
+copy.42,,,Remy Byte · Editor,Remy Byte · Editor
+copy.43,,,2 · Assign crew,2 · Assign crew
+copy.44,,,"Starter camera, computer and light","Starter camera, computer and light"
+copy.45,,,3 · Choose equipment,3 · Choose equipment
+copy.46,,,"Fixture preview only. The live server supplies equipment, crew and theme contributions.","Fixture preview only. The live server supplies equipment, crew and theme contributions."
+copy.47,,,Setup quality 28 / 100 · Common,Setup quality 28 / 100 · Common
+copy.48,,,First production: guaranteed Common · Studio Series · not tradable.,First production: guaranteed Common · Studio Series · not tradable.
+copy.49,,,Refresh production preview,Refresh production preview
+copy.50,,,Start this production with the reviewed category and setup?,Start this production with the reviewed category and setup?
+copy.51,,,Start production,Start production
+copy.52,,,All categories,All categories
+copy.53,,,Gaming,Gaming
+copy.54,,,Comedy,Comedy
+copy.55,,,Music,Music
+copy.56,,,Category filter,Category filter
+copy.57,,,All series,All series
+copy.58,,,Studio Series,Studio Series
+copy.59,,,Weekly Series,Weekly Series
+copy.60,,,Series filter,Series filter
+copy.61,,,All rarities,All rarities
+copy.62,,,Common,Common
+copy.63,,,Uncommon,Uncommon
+copy.64,,,Rare,Rare
+copy.65,,,Epic,Epic
+copy.66,,,Rarity filter,Rarity filter
+copy.67,,,Apply filters,Apply filters
+copy.68,,,Permanent rarity · Studio Series · not tradable,Permanent rarity · Studio Series · not tradable
+copy.69,,,Favourite this Drop,Favourite this Drop
+copy.70,,,Preview salvage reward,Preview salvage reward
+copy.71,,,Request an authoritative salvage reward preview first.,Request an authoritative salvage reward preview first.
+copy.72,,,Permanently salvage the reviewed Drop for the exact Credits shown by the server?,Permanently salvage the reviewed Drop for the exact Credits shown by the server?
+copy.73,,,Confirm salvage,Confirm salvage
+copy.74,,,Weekly Series · preview edition,Weekly Series · preview edition
+copy.75,,,Chart Freeze,Chart Freeze
+copy.76,,,Preview data · not connected to a live chart,Preview data · not connected to a live chart
+copy.77,,,Gaming · committed productions,Gaming · committed productions
+copy.78,,,Comedy · committed productions,Comedy · committed productions
+copy.79,,,Music · committed productions,Music · committed productions
+copy.80,,,Interest is a published game rule. Supply counts committed productions. Final rarity is assigned after settlement.,Interest is a published game rule. Supply counts committed productions. Final rarity is assigned after settlement.
+copy.81,,,Refresh chart,Refresh chart
+copy.82,,,"Retains the plot and permanent upgrades. Confirmed contributions: 1,200 Credits.","Retains the plot and permanent upgrades. Confirmed contributions: 1,200 Credits."
+copy.83,,,Host · Remy Studio · Online,Host · Remy Studio · Online
+copy.84,,,Confirmed contributions: 800 Credits. Crew XP belongs to the assigned crew owner.,Confirmed contributions: 800 Credits. Crew XP belongs to the assigned crew owner.
+copy.85,,,Co-owner · Ari Studio · Online,Co-owner · Ari Studio · Online
+copy.86,,,Shared weekly production use,Shared weekly production use
+copy.87,,,Your remaining account allowance: supplied by server. Forming a partnership gives no extra allowance.,Your remaining account allowance: supplied by server. Forming a partnership gives no extra allowance.
+copy.88,,,Both players must see their exact contribution and confirm.,Both players must see their exact contribution and confirm.
+copy.89,,,Upgrade vote · fixture review,Upgrade vote · fixture review
+copy.90,,,Vote deadline,Vote deadline
+copy.91,,,Approve upgrade,Approve upgrade
+copy.92,,,Decline upgrade,Decline upgrade
+copy.93,,,Review leaving partnership,Review leaving partnership
+copy.94,,,Request the refund summary and wait for the server cooling period.,Request the refund summary and wait for the server cooling period.
+copy.95,,,Leave the partnership? Review what each player retains and the server-calculated refund.,Leave the partnership? Review what each player retains and the server-calculated refund.
+copy.96,,,Confirm dissolution,Confirm dissolution
+copy.97,,,Browse,Browse
+copy.98,,,My listings,My listings
+copy.99,,,Offers,Offers
+copy.100,,,Marketplace view,Marketplace view
+copy.101,,,Refresh results,Refresh results
+copy.102,,,"Fixture listing only. Final rarity confirmed; original creator Ari Studio, current owner Remy Studio. Quality 65 · Created 6 Sep 2026, 12:00 UTC · ID PREVIEW-W01.","Fixture listing only. Final rarity confirmed; original creator Ari Studio, current owner Remy Studio. Quality 65 · Created 6 Sep 2026, 12:00 UTC · ID PREVIEW-W01."
+copy.103,,,Music · Weekly Series · Rare,Music · Weekly Series · Rare
+copy.104,,,Provenance: original creator and current owner shown. A complete ownership history is not available in this preview.,Provenance: original creator and current owner shown. A complete ownership history is not available in this preview.
+copy.105,,,Item for item,Item for item
+copy.106,,,Open to offers,Open to offers
+copy.107,,,Create listing type,Create listing type
+copy.108,,,Credit listings are hidden until explicitly enabled for the release.,Credit listings are hidden until explicitly enabled for the release.
+copy.109,,,Gaming · Weekly · Common,Gaming · Weekly · Common
+copy.110,,,Comedy · Weekly · Uncommon,Comedy · Weekly · Uncommon
+copy.111,,,Choose up to four offered Drops,Choose up to four offered Drops
+copy.112,,,Review new listing,Review new listing
+copy.113,,,Send offer,Send offer
+copy.114,,,Review incoming offer,Review incoming offer
+copy.115,,,Report this trade,Report this trade
+copy.116,,,Visit marketplace,Visit marketplace
+copy.117,,,Return to studio,Return to studio
+copy.118,,,Open a current server trade review before confirming.,Open a current server trade review before confirming.
+copy.119,,,Confirm the exact reviewed items and terms on both sides?,Confirm the exact reviewed items and terms on both sides?
+copy.120,,,Confirm reviewed trade,Confirm reviewed trade
+copy.121,,,The live server validates the selected context and target.,The live server validates the selected context and target.
+copy.122,,,"Selected trade, studio or player","Selected trade, studio or player"
+copy.123,,,Scam attempt,Scam attempt
+copy.124,,,Harassment,Harassment
+copy.125,,,Offensive name,Offensive name
+copy.126,,,Other,Other
+copy.127,,,What happened?,What happened?
+copy.128,,,Optional details · up to 200 characters,Optional details · up to 200 characters
+copy.129,,,Do not include personal information. A report is a request for review.,Do not include personal information. A report is a request for review.
+copy.130,,,"Block trade offers, partnership requests and studio visits from this player?","Block trade offers, partnership requests and studio visits from this player?"
+copy.131,,,Block this player in this experience,Block this player in this experience
+copy.132,,,Send report,Send report
+copy.133,,,Toggle reduced effects,Toggle reduced effects
+copy.134,,,Reduced effects removes particles and rapid motion. Roblox reduced motion is respected too.,Reduced effects removes particles and rapid motion. Roblox reduced motion is respected too.
+copy.135,,,Sound −10%,Sound −10%
+copy.136,,,Sound +10%,Sound +10%
+copy.137,,,Use Roblox language,Use Roblox language
+copy.138,,,English,English
+copy.139,,,Language,Language
+copy.140,,,No blocked players in this preview. Live rows provide individual Unblock actions.,No blocked players in this preview. Live rows provide individual Unblock actions.
+copy.141,,,Blocked players,Blocked players
+copy.142,,,Save preferences,Save preferences

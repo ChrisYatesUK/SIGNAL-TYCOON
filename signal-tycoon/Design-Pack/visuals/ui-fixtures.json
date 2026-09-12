@@ -1,0 +1,1172 @@
+{
+  "HUD": {
+    "revision": 1,
+    "rows": []
+  },
+  "BuildCatalogue": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "category",
+        "kind": "choice",
+        "text": {
+          "key": "copy.4"
+        },
+        "field": "catalogueId",
+        "value": "desk",
+        "options": [
+          {
+            "id": "desk",
+            "text": {
+              "key": "copy.1"
+            }
+          },
+          {
+            "id": "camera1",
+            "text": {
+              "key": "copy.2"
+            }
+          },
+          {
+            "id": "plant",
+            "text": {
+              "key": "copy.3"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cost",
+        "kind": "label",
+        "text": {
+          "key": "copy.5"
+        }
+      },
+      {
+        "id": "select",
+        "kind": "action",
+        "text": {
+          "key": "copy.6"
+        },
+        "action": "build.select"
+      },
+      {
+        "id": "owned",
+        "kind": "choice",
+        "text": {
+          "key": "copy.8"
+        },
+        "field": "placementId",
+        "value": "fixture-desk",
+        "options": [
+          {
+            "id": "fixture-desk",
+            "text": {
+              "key": "copy.7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "move",
+        "kind": "action",
+        "text": {
+          "key": "copy.9"
+        },
+        "action": "build.move"
+      },
+      {
+        "id": "slot",
+        "kind": "choice",
+        "text": {
+          "key": "copy.11"
+        },
+        "field": "slot",
+        "value": "Accent",
+        "options": [
+          {
+            "id": "Accent",
+            "text": {
+              "key": "copy.10"
+            }
+          }
+        ]
+      },
+      {
+        "id": "colour",
+        "kind": "choice",
+        "text": {
+          "key": "copy.15"
+        },
+        "field": "colour",
+        "value": "cyan",
+        "options": [
+          {
+            "id": "cyan",
+            "text": {
+              "key": "copy.12"
+            }
+          },
+          {
+            "id": "violet",
+            "text": {
+              "key": "copy.13"
+            }
+          },
+          {
+            "id": "coral",
+            "text": {
+              "key": "copy.14"
+            }
+          }
+        ]
+      },
+      {
+        "id": "colourApply",
+        "kind": "action",
+        "text": {
+          "key": "copy.16"
+        },
+        "action": "build.recolour"
+      },
+      {
+        "id": "store",
+        "kind": "action",
+        "text": {
+          "key": "copy.18"
+        },
+        "action": "build.store",
+        "confirm": {
+          "key": "copy.17"
+        }
+      },
+      {
+        "id": "placeHelp",
+        "kind": "label",
+        "text": {
+          "key": "copy.19"
+        }
+      },
+      {
+        "id": "north",
+        "kind": "action",
+        "text": {
+          "key": "copy.20"
+        },
+        "action": "build.north"
+      },
+      {
+        "id": "west",
+        "kind": "action",
+        "text": {
+          "key": "copy.21"
+        },
+        "action": "build.west"
+      },
+      {
+        "id": "east",
+        "kind": "action",
+        "text": {
+          "key": "copy.22"
+        },
+        "action": "build.east"
+      },
+      {
+        "id": "south",
+        "kind": "action",
+        "text": {
+          "key": "copy.23"
+        },
+        "action": "build.south"
+      },
+      {
+        "id": "rotate",
+        "kind": "action",
+        "text": {
+          "key": "copy.24"
+        },
+        "action": "build.rotate"
+      },
+      {
+        "id": "cancelPreview",
+        "kind": "action",
+        "text": {
+          "key": "copy.25"
+        },
+        "action": "build.cancelPreview"
+      }
+    ],
+    "footer": {
+      "id": "place",
+      "kind": "action",
+      "text": {
+        "key": "copy.26"
+      },
+      "action": "build.submitPreview"
+    }
+  },
+  "CrewPanel": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "remy",
+        "kind": "progress",
+        "text": {
+          "key": "crew.detail",
+          "args": {
+            "name": "Remy Byte",
+            "role": "Editor",
+            "level": 1,
+            "assignment": "Available"
+          }
+        },
+        "current": 40,
+        "maximum": 100
+      },
+      {
+        "id": "ari",
+        "kind": "label",
+        "text": {
+          "key": "crew.detail",
+          "args": {
+            "name": "Ari Frame",
+            "role": "Camera Operator",
+            "level": 1,
+            "assignment": "Not yet hired"
+          }
+        }
+      },
+      {
+        "id": "crew",
+        "kind": "choice",
+        "text": {
+          "key": "copy.29"
+        },
+        "field": "crewId",
+        "value": "remy",
+        "options": [
+          {
+            "id": "remy",
+            "text": {
+              "key": "copy.27"
+            }
+          },
+          {
+            "id": "ari",
+            "text": {
+              "key": "copy.28"
+            }
+          }
+        ]
+      },
+      {
+        "id": "station",
+        "kind": "choice",
+        "text": {
+          "key": "copy.31"
+        },
+        "field": "stationId",
+        "value": "station1",
+        "options": [
+          {
+            "id": "station1",
+            "text": {
+              "key": "copy.30"
+            }
+          }
+        ]
+      },
+      {
+        "id": "hire",
+        "kind": "action",
+        "text": {
+          "key": "copy.33"
+        },
+        "action": "crew.hire",
+        "confirm": {
+          "key": "copy.32"
+        }
+      },
+      {
+        "id": "level",
+        "kind": "action",
+        "text": {
+          "key": "copy.35"
+        },
+        "action": "crew.level",
+        "confirm": {
+          "key": "copy.34"
+        }
+      },
+      {
+        "id": "unassign",
+        "kind": "action",
+        "text": {
+          "key": "copy.36"
+        },
+        "action": "crew.unassign"
+      }
+    ],
+    "footer": {
+      "id": "assign",
+      "kind": "action",
+      "text": {
+        "key": "copy.37"
+      },
+      "action": "crew.assign"
+    }
+  },
+  "ProductionPanel": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "category",
+        "kind": "choice",
+        "text": {
+          "key": "copy.41"
+        },
+        "field": "categoryId",
+        "value": "Gaming",
+        "options": [
+          {
+            "id": "Gaming",
+            "text": {
+              "key": "copy.38"
+            }
+          },
+          {
+            "id": "Comedy",
+            "text": {
+              "key": "copy.39"
+            }
+          },
+          {
+            "id": "Music",
+            "text": {
+              "key": "copy.40"
+            }
+          }
+        ]
+      },
+      {
+        "id": "crew",
+        "kind": "choice",
+        "text": {
+          "key": "copy.43"
+        },
+        "field": "crewId",
+        "value": "remy",
+        "options": [
+          {
+            "id": "remy",
+            "text": {
+              "key": "copy.42"
+            }
+          }
+        ]
+      },
+      {
+        "id": "equipment",
+        "kind": "choice",
+        "text": {
+          "key": "copy.45"
+        },
+        "field": "equipmentId",
+        "value": "station1",
+        "options": [
+          {
+            "id": "station1",
+            "text": {
+              "key": "copy.44"
+            }
+          }
+        ]
+      },
+      {
+        "id": "summary",
+        "kind": "label",
+        "text": {
+          "key": "copy.47"
+        },
+        "rarity": "Common",
+        "detail": {
+          "key": "copy.46"
+        }
+      },
+      {
+        "id": "tutorial",
+        "kind": "label",
+        "text": {
+          "key": "copy.48"
+        }
+      },
+      {
+        "id": "quote",
+        "kind": "action",
+        "text": {
+          "key": "copy.49"
+        },
+        "action": "production.quote"
+      }
+    ],
+    "footer": {
+      "id": "start",
+      "kind": "action",
+      "text": {
+        "key": "copy.51"
+      },
+      "action": "production.start",
+      "payload": {
+        "quoteId": "fixture-quote"
+      },
+      "bindings": {
+        "categoryId": "Gaming",
+        "crewId": "remy",
+        "equipmentId": "station1"
+      },
+      "confirm": {
+        "key": "copy.50"
+      }
+    }
+  },
+  "CollectionPanel": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "catFilter",
+        "kind": "choice",
+        "text": {
+          "key": "copy.56"
+        },
+        "field": "categoryId",
+        "value": "all",
+        "options": [
+          {
+            "id": "all",
+            "text": {
+              "key": "copy.52"
+            }
+          },
+          {
+            "id": "Gaming",
+            "text": {
+              "key": "copy.53"
+            }
+          },
+          {
+            "id": "Comedy",
+            "text": {
+              "key": "copy.54"
+            }
+          },
+          {
+            "id": "Music",
+            "text": {
+              "key": "copy.55"
+            }
+          }
+        ]
+      },
+      {
+        "id": "series",
+        "kind": "choice",
+        "text": {
+          "key": "copy.60"
+        },
+        "field": "series",
+        "value": "all",
+        "options": [
+          {
+            "id": "all",
+            "text": {
+              "key": "copy.57"
+            }
+          },
+          {
+            "id": "studio",
+            "text": {
+              "key": "copy.58"
+            }
+          },
+          {
+            "id": "weekly",
+            "text": {
+              "key": "copy.59"
+            }
+          }
+        ]
+      },
+      {
+        "id": "rarity",
+        "kind": "choice",
+        "text": {
+          "key": "copy.66"
+        },
+        "field": "rarity",
+        "value": "all",
+        "options": [
+          {
+            "id": "all",
+            "text": {
+              "key": "copy.61"
+            }
+          },
+          {
+            "id": "Common",
+            "text": {
+              "key": "copy.62"
+            }
+          },
+          {
+            "id": "Uncommon",
+            "text": {
+              "key": "copy.63"
+            }
+          },
+          {
+            "id": "Rare",
+            "text": {
+              "key": "copy.64"
+            }
+          },
+          {
+            "id": "Epic",
+            "text": {
+              "key": "copy.65"
+            }
+          }
+        ]
+      },
+      {
+        "id": "query",
+        "kind": "action",
+        "text": {
+          "key": "copy.67"
+        },
+        "action": "collection.query"
+      },
+      {
+        "id": "drop",
+        "kind": "card",
+        "text": {
+          "key": "card.metadata",
+          "args": {
+            "category": "Gaming",
+            "series": "Studio Series",
+            "quality": 28,
+            "created": "12 Sep 2026 \u00b7 14:00 UTC",
+            "creator": "Remy Studio",
+            "owner": "You",
+            "id": "PREVIEW-001"
+          }
+        },
+        "rarity": "Common",
+        "detail": {
+          "key": "copy.68"
+        }
+      },
+      {
+        "id": "favourite",
+        "kind": "action",
+        "text": {
+          "key": "copy.69"
+        },
+        "action": "collection.favourite",
+        "payload": {
+          "dropId": "PREVIEW-001",
+          "favourite": true
+        }
+      },
+      {
+        "id": "salvagePreview",
+        "kind": "action",
+        "text": {
+          "key": "copy.70"
+        },
+        "action": "collection.salvageQuote",
+        "payload": {
+          "dropId": "PREVIEW-001"
+        }
+      }
+    ],
+    "footer": {
+      "id": "salvage",
+      "kind": "action",
+      "text": {
+        "key": "copy.73"
+      },
+      "action": "collection.salvage",
+      "enabled": false,
+      "reason": {
+        "key": "copy.71"
+      },
+      "confirm": {
+        "key": "copy.72"
+      }
+    }
+  },
+  "ChartBoard": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "week",
+        "kind": "label",
+        "text": {
+          "key": "copy.74"
+        }
+      },
+      {
+        "id": "freeze",
+        "kind": "timer",
+        "text": {
+          "key": "copy.75"
+        },
+        "deadline": 7200
+      },
+      {
+        "id": "freshness",
+        "kind": "label",
+        "text": {
+          "key": "copy.76"
+        }
+      },
+      {
+        "id": "supplyGaming",
+        "kind": "progress",
+        "text": {
+          "key": "copy.77"
+        },
+        "current": 140,
+        "maximum": 400
+      },
+      {
+        "id": "interestGaming",
+        "kind": "label",
+        "text": {
+          "key": "chart.interest",
+          "args": {
+            "share": 35
+          }
+        }
+      },
+      {
+        "id": "supplyComedy",
+        "kind": "progress",
+        "text": {
+          "key": "copy.78"
+        },
+        "current": 160,
+        "maximum": 400
+      },
+      {
+        "id": "interestComedy",
+        "kind": "label",
+        "text": {
+          "key": "chart.interest",
+          "args": {
+            "share": 40
+          }
+        }
+      },
+      {
+        "id": "supplyMusic",
+        "kind": "progress",
+        "text": {
+          "key": "copy.79"
+        },
+        "current": 100,
+        "maximum": 400
+      },
+      {
+        "id": "interestMusic",
+        "kind": "label",
+        "text": {
+          "key": "chart.interest",
+          "args": {
+            "share": 25
+          }
+        }
+      },
+      {
+        "id": "score",
+        "kind": "label",
+        "text": {
+          "key": "chart.provisional",
+          "args": {
+            "score": 55
+          }
+        }
+      },
+      {
+        "id": "explain",
+        "kind": "label",
+        "text": {
+          "key": "copy.80"
+        }
+      }
+    ],
+    "footer": {
+      "id": "refresh",
+      "kind": "action",
+      "text": {
+        "key": "copy.81"
+      },
+      "action": "chart.refresh"
+    }
+  },
+  "PartnershipPanel": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "host",
+        "kind": "label",
+        "text": {
+          "key": "copy.83"
+        },
+        "detail": {
+          "key": "copy.82"
+        }
+      },
+      {
+        "id": "coowner",
+        "kind": "label",
+        "text": {
+          "key": "copy.85"
+        },
+        "detail": {
+          "key": "copy.84"
+        }
+      },
+      {
+        "id": "shared",
+        "kind": "progress",
+        "text": {
+          "key": "copy.86"
+        },
+        "current": 18,
+        "maximum": 56
+      },
+      {
+        "id": "account",
+        "kind": "label",
+        "text": {
+          "key": "copy.87"
+        }
+      },
+      {
+        "id": "vote",
+        "kind": "label",
+        "text": {
+          "key": "copy.89"
+        },
+        "detail": {
+          "key": "copy.88"
+        }
+      },
+      {
+        "id": "voteTimer",
+        "kind": "timer",
+        "text": {
+          "key": "copy.90"
+        },
+        "deadline": 300
+      },
+      {
+        "id": "yes",
+        "kind": "action",
+        "text": {
+          "key": "copy.91"
+        },
+        "action": "partnership.vote",
+        "payload": {
+          "voteId": "PREVIEW-VOTE",
+          "approve": true
+        }
+      },
+      {
+        "id": "no",
+        "kind": "action",
+        "text": {
+          "key": "copy.92"
+        },
+        "action": "partnership.vote",
+        "payload": {
+          "voteId": "PREVIEW-VOTE",
+          "approve": false
+        }
+      },
+      {
+        "id": "leavePreview",
+        "kind": "action",
+        "text": {
+          "key": "copy.93"
+        },
+        "action": "partnership.dissolveQuote"
+      }
+    ],
+    "footer": {
+      "id": "leave",
+      "kind": "action",
+      "text": {
+        "key": "copy.96"
+      },
+      "action": "partnership.dissolve",
+      "enabled": false,
+      "reason": {
+        "key": "copy.94"
+      },
+      "confirm": {
+        "key": "copy.95"
+      }
+    }
+  },
+  "MarketplaceHub": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "tab",
+        "kind": "choice",
+        "text": {
+          "key": "copy.100"
+        },
+        "field": "tab",
+        "value": "browse",
+        "options": [
+          {
+            "id": "browse",
+            "text": {
+              "key": "copy.97"
+            }
+          },
+          {
+            "id": "listings",
+            "text": {
+              "key": "copy.98"
+            }
+          },
+          {
+            "id": "offers",
+            "text": {
+              "key": "copy.99"
+            }
+          }
+        ]
+      },
+      {
+        "id": "browse",
+        "kind": "action",
+        "text": {
+          "key": "copy.101"
+        },
+        "action": "market.query"
+      },
+      {
+        "id": "listing",
+        "kind": "card",
+        "text": {
+          "key": "copy.103"
+        },
+        "rarity": "Rare",
+        "detail": {
+          "key": "copy.102"
+        }
+      },
+      {
+        "id": "provenance",
+        "kind": "label",
+        "text": {
+          "key": "copy.104"
+        }
+      },
+      {
+        "id": "type",
+        "kind": "choice",
+        "text": {
+          "key": "copy.107"
+        },
+        "field": "listingType",
+        "value": "item_for_item",
+        "options": [
+          {
+            "id": "item_for_item",
+            "text": {
+              "key": "copy.105"
+            }
+          },
+          {
+            "id": "open_offers",
+            "text": {
+              "key": "copy.106"
+            }
+          }
+        ]
+      },
+      {
+        "id": "creditGate",
+        "kind": "label",
+        "text": {
+          "key": "copy.108"
+        }
+      },
+      {
+        "id": "offer",
+        "kind": "multiChoice",
+        "text": {
+          "key": "copy.111"
+        },
+        "field": "offeredDropIds",
+        "value": [],
+        "options": [
+          {
+            "id": "PREVIEW-W02",
+            "text": {
+              "key": "copy.109"
+            }
+          },
+          {
+            "id": "PREVIEW-W03",
+            "text": {
+              "key": "copy.110"
+            }
+          }
+        ]
+      },
+      {
+        "id": "list",
+        "kind": "action",
+        "text": {
+          "key": "copy.112"
+        },
+        "action": "market.list"
+      },
+      {
+        "id": "offerSend",
+        "kind": "action",
+        "text": {
+          "key": "copy.113"
+        },
+        "action": "market.offer",
+        "payload": {
+          "listingId": "PREVIEW-L1"
+        }
+      },
+      {
+        "id": "accept",
+        "kind": "action",
+        "text": {
+          "key": "copy.114"
+        },
+        "action": "market.accept",
+        "payload": {
+          "offerId": "PREVIEW-O1"
+        }
+      },
+      {
+        "id": "report",
+        "kind": "action",
+        "text": {
+          "key": "copy.115"
+        },
+        "action": "ui.report",
+        "payload": {
+          "targetType": "trade",
+          "targetId": "PREVIEW-T1",
+          "targetUserId": 0
+        }
+      },
+      {
+        "id": "visit",
+        "kind": "action",
+        "text": {
+          "key": "copy.116"
+        },
+        "action": "market.visit"
+      },
+      {
+        "id": "return",
+        "kind": "action",
+        "text": {
+          "key": "copy.117"
+        },
+        "action": "market.return"
+      }
+    ],
+    "footer": {
+      "id": "confirmTrade",
+      "kind": "action",
+      "text": {
+        "key": "copy.120"
+      },
+      "action": "market.confirm",
+      "enabled": false,
+      "reason": {
+        "key": "copy.118"
+      },
+      "confirm": {
+        "key": "copy.119"
+      }
+    }
+  },
+  "ReportDialog": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "target",
+        "kind": "label",
+        "text": {
+          "key": "copy.122"
+        },
+        "detail": {
+          "key": "copy.121"
+        }
+      },
+      {
+        "id": "reason",
+        "kind": "choice",
+        "text": {
+          "key": "copy.127"
+        },
+        "field": "reason",
+        "value": "scam",
+        "options": [
+          {
+            "id": "scam",
+            "text": {
+              "key": "copy.123"
+            }
+          },
+          {
+            "id": "harassment",
+            "text": {
+              "key": "copy.124"
+            }
+          },
+          {
+            "id": "offensive_name",
+            "text": {
+              "key": "copy.125"
+            }
+          },
+          {
+            "id": "other",
+            "text": {
+              "key": "copy.126"
+            }
+          }
+        ]
+      },
+      {
+        "id": "notes",
+        "kind": "input",
+        "text": {
+          "key": "copy.128"
+        },
+        "field": "notes",
+        "value": ""
+      },
+      {
+        "id": "privacy",
+        "kind": "label",
+        "text": {
+          "key": "copy.129"
+        }
+      },
+      {
+        "id": "block",
+        "kind": "action",
+        "text": {
+          "key": "copy.131"
+        },
+        "action": "moderation.block",
+        "confirm": {
+          "key": "copy.130"
+        }
+      }
+    ],
+    "footer": {
+      "id": "reportSubmit",
+      "kind": "action",
+      "text": {
+        "key": "copy.132"
+      },
+      "action": "moderation.report"
+    }
+  },
+  "Settings": {
+    "revision": 1,
+    "rows": [
+      {
+        "id": "effects",
+        "kind": "action",
+        "text": {
+          "key": "copy.133"
+        },
+        "action": "settings.toggle"
+      },
+      {
+        "id": "explain",
+        "kind": "label",
+        "text": {
+          "key": "copy.134"
+        }
+      },
+      {
+        "id": "quieter",
+        "kind": "action",
+        "text": {
+          "key": "copy.135"
+        },
+        "action": "settings.quieter"
+      },
+      {
+        "id": "louder",
+        "kind": "action",
+        "text": {
+          "key": "copy.136"
+        },
+        "action": "settings.louder"
+      },
+      {
+        "id": "locale",
+        "kind": "choice",
+        "text": {
+          "key": "copy.139"
+        },
+        "field": "locale",
+        "value": "auto",
+        "options": [
+          {
+            "id": "auto",
+            "text": {
+              "key": "copy.137"
+            }
+          },
+          {
+            "id": "en-us",
+            "text": {
+              "key": "copy.138"
+            }
+          }
+        ]
+      },
+      {
+        "id": "blocks",
+        "kind": "label",
+        "text": {
+          "key": "copy.141"
+        },
+        "detail": {
+          "key": "copy.140"
+        }
+      }
+    ],
+    "footer": {
+      "id": "save",
+      "kind": "action",
+      "text": {
+        "key": "copy.142"
+      },
+      "action": "settings.save"
+    }
+  }
+}
