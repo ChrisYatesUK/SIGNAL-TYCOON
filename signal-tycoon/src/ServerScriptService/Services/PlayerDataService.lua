@@ -201,69 +201,101 @@ function PlayerDataService.saveNow(player: Player): boolean
 end
 
 function PlayerDataService.loadForPlayer(player: Player): (boolean, string?)
-    if sessions[player.UserId] then return true, nil end
+	if sessions[player.UserId] then return true, nil end
+	print(("[PDS] Loading profile for %s (%d)"):format(player.Name, player.UserId))
 
-    local leaseId = IdUtil.uuid()
-    local acquired, leaseErr = tryAcquireLease(player.UserId, leaseId)
-    if not acquired then return false, leaseErr or "Session lock failed" end
+	local leaseId = IdUtil.uuid()
 
-    local profile, loadErr = loadProfile(player.UserId)
-    if profile == nil and loadErr ~= "new" then
-        releaseLease(player.UserId, leaseId)
-        return false, loadErr or "Profile load failed"
-    end
-    if profile == nil then profile = defaultProfile(player) end
-    profile.userId = player.UserId
-    profile.displayName = player.Name
-    profile._session.leaseId = leaseId
-    profile._session.loadedAt = os.time()
-    if profile._session.firstPlayAt == nil then
-        profile._session.firstPlayAt = os.time()
-    end
+	-- Studio bypass: leases enforce cross-server exclusion, which is not a
+	-- concern in a single-user Studio session. Prior crashed/killed sessions
+	-- leave stale leases that block new loads for up to 5 minutes. Skip
+	-- entirely in Studio; production servers still go through tryAcquireLease.
+	if not RunService:IsStudio() then
+		local acquired, leaseErr = tryAcquireLease(player.UserId, leaseId)
+		if not acquired then
+			print("[PDS] Lease acquisition failed:", tostring(leaseErr))
+			return false, leaseErr or "Session lock could not be acquired"
+		end
+		print("[PDS] Lease acquired:", leaseId)
+	else
+		print("[PDS] Studio session — lease bypassed")
+	end
 
-    sessions[player.UserId] = {
-        profile = profile,
-        leaseId = leaseId,
-        heartbeat = task.spawn(function()
-            while sessions[player.UserId] do
-                task.wait(LEASE_RENEW)
-                if not renewLease(player.UserId, leaseId) then break end
-            end
-        end),
-        autosave = task.spawn(function()
-            while sessions[player.UserId] do
-                task.wait(AUTOSAVE_PERIOD)
-                local s = sessions[player.UserId]
-                if s and s.dirty then
-                    if saveProfile(s.profile, s.leaseId) then s.dirty = false end
-                end
-            end
-        end),
-        dirty = false,
-    }
+	local profile, loadErr = loadProfile(player.UserId)
+	if profile == nil and loadErr ~= "new" then
+		print("[PDS] Profile load failed:", tostring(loadErr))
+		if not RunService:IsStudio() then
+			releaseLease(player.UserId, leaseId)
+		end
+		return false, loadErr or "Profile load failed"
+	end
+	if profile == nil then
+		print("[PDS] No existing profile — creating new")
+		profile = defaultProfile(player)
+	end
 
-    profileCache[player.UserId] = profile
-    return true, nil
+	profile.userId = player.UserId
+	profile.displayName = player.Name
+	profile._session.leaseId = leaseId
+	profile._session.loadedAt = os.time()
+	if profile._session.firstPlayAt == nil then
+		profile._session.firstPlayAt = os.time()
+	end
+
+	sessions[player.UserId] = {
+		profile = profile,
+		leaseId = leaseId,
+		heartbeat = task.spawn(function()
+			while sessions[player.UserId] do
+				task.wait(LEASE_RENEW)
+				if RunService:IsStudio() then
+					-- Studio: no lease to renew
+				elseif not renewLease(player.UserId, leaseId) then
+					print("[PDS] Lease renewal failed for", player.UserId)
+					break
+				end
+			end
+		end),
+		autosave = task.spawn(function()
+			while sessions[player.UserId] do
+				task.wait(AUTOSAVE_PERIOD)
+				local s = sessions[player.UserId]
+				if s and s.dirty then
+					if saveProfile(s.profile, s.leaseId) then s.dirty = false end
+				end
+			end
+		end),
+		dirty = false,
+	}
+
+	profileCache[player.UserId] = profile
+	print("[PDS] Profile ready for", player.Name)
+	return true, nil
 end
 
 function PlayerDataService.unloadForPlayer(player: Player)
-    local session = sessions[player.UserId]
-    if not session then return end
+	local session = sessions[player.UserId]
+	if not session then return end
 
-    if renewLease(player.UserId, session.leaseId) then
-        saveProfile(session.profile, session.leaseId)
-    end
+	if RunService:IsStudio() then
+		-- Final save, no lease to release
+		saveProfile(session.profile, session.leaseId)
+	else
+		if renewLease(player.UserId, session.leaseId) then
+			saveProfile(session.profile, session.leaseId)
+		end
+		releaseLease(player.UserId, session.leaseId)
+	end
 
-    if session.heartbeat then task.cancel(session.heartbeat) end
-    if session.autosave then task.cancel(session.autosave) end
+	if session.heartbeat then task.cancel(session.heartbeat) end
+	if session.autosave then task.cancel(session.autosave) end
 
-    releaseLease(player.UserId, session.leaseId)
-    sessions[player.UserId] = nil
-    task.delay(300, function()
-        if not sessions[player.UserId] then
-            profileCache[player.UserId] = nil
-        end
-    end)
+	sessions[player.UserId] = nil
+	task.delay(300, function()
+		if not sessions[player.UserId] then
+			profileCache[player.UserId] = nil
+		end
+	end)
 end
 
 function PlayerDataService.init()
