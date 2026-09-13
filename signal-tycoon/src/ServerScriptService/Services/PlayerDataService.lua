@@ -82,11 +82,19 @@ local function defaultProfile(player: Player): any
             leaseId = nil,
             lastSavedAt = 0,
             loadedAt = os.time(),
+            firstPlayAt = os.time(),   -- NEW: never reset; drives TradingGate
         },
     }
 end
 
 local function migrate(profile: any): any
+    if profile._session == nil then
+        profile._session = { leaseId = nil, lastSavedAt = 0, loadedAt = os.time() }
+    end
+    if profile._session.firstPlayAt == nil then
+        -- Best guess for existing profiles: use loadedAt if present, else now.
+        profile._session.firstPlayAt = profile._session.loadedAt or os.time()
+    end
     if profile.schemaVersion == CURRENT_SCHEMA then return profile end
     profile.schemaVersion = CURRENT_SCHEMA
     return profile
@@ -209,6 +217,9 @@ function PlayerDataService.loadForPlayer(player: Player): (boolean, string?)
     profile.displayName = player.Name
     profile._session.leaseId = leaseId
     profile._session.loadedAt = os.time()
+    if profile._session.firstPlayAt == nil then
+        profile._session.firstPlayAt = os.time()
+    end
 
     sessions[player.UserId] = {
         profile = profile,
