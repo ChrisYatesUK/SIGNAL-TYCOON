@@ -1,184 +1,261 @@
 --!strict
--- Entry point. Creates remotes, wires services, handles joins.
+-- Three-remote adapter over the v2 services. Replaces the named-remote model
+-- with UIAction / UIState / UIResult to match UIRemoteDefinitions.lua.
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
-local RemoteDefinitions = require(Shared:WaitForChild("Net"):WaitForChild("RemoteDefinitions"))
 local RateLimits = require(Shared:WaitForChild("Net"):WaitForChild("RateLimits"))
 
-local Services = script.Parent:WaitForChild("Services")
+local Services = ServerScriptService:WaitForChild("Services")
 local PlayerDataService = require(Services:WaitForChild("PlayerDataService"))
 local PlotService       = require(Services:WaitForChild("PlotService"))
 local ProductionService = require(Services:WaitForChild("ProductionService"))
+local TradingGate       = require(Services:WaitForChild("TradingGate"))
+local UIProjection      = require(Services:WaitForChild("UIProjectionService"))
 
--- ── Remote creation ──────────────────────────────────────────────────────
+-- ── Remote wiring ────────────────────────────────────────────────────────
 
-local remotesFolder = ReplicatedStorage:FindFirstChild(RemoteDefinitions.FolderName)
-if not remotesFolder then
-    remotesFolder = Instance.new("Folder")
-    remotesFolder.Name = RemoteDefinitions.FolderName
-    remotesFolder.Parent = ReplicatedStorage
+local UIRemotes = ReplicatedStorage:FindFirstChild("UIRemotes")
+if not UIRemotes then
+    UIRemotes = Instance.new("Folder")
+    UIRemotes.Name = "UIRemotes"
+    UIRemotes.Parent = ReplicatedStorage
+end
+local function ensure(name: string): RemoteEvent
+    local r = UIRemotes:FindFirstChild(name)
+    if not r then
+        r = Instance.new("RemoteEvent"); r.Name = name; r.Parent = UIRemotes
+    end
+    return r :: RemoteEvent
+end
+local UIAction = ensure("UIAction")
+local UIState  = ensure("UIState")
+local UIResult = ensure("UIResult")
+
+-- ── Revision tracking ────────────────────────────────────────────────────
+
+local revisions: { [number]: number } = {}
+
+local function pushState(player: Player)
+    local profile = PlayerDataService.getProfile(player)
+    if not profile then return end
+    local rev = (revisions[player.UserId] or 0) + 1
+    revisions[player.UserId] = rev
+    local gate = TradingGate.status(profile)
+    local snapshot = UIProjection.project(profile, rev, gate)
+    UIState:FireClient(player, snapshot)
 end
 
-local function ensureRemote(className: "RemoteEvent" | "RemoteFunction", name: string): Instance
-    local existing = remotesFolder:FindFirstChild(name)
-    if existing then return existing end
-    local r = Instance.new(className)
-    r.Name = name
-    r.Parent = remotesFolder
-    return r
+local function reply(player, requestId: string, ok: boolean, messageKey: string?, args: any?)
+    UIResult:FireClient(player, {
+        requestId = requestId,
+        ok = ok,
+        message = messageKey and { key = messageKey, args = args or {} } or nil,
+    })
 end
 
-local events: { [string]: RemoteEvent } = {}
-for name in pairs(RemoteDefinitions.Events) do
-    events[name] = ensureRemote("RemoteEvent", name) :: RemoteEvent
-end
-local functions: { [string]: RemoteFunction } = {}
-for name in pairs(RemoteDefinitions.Functions) do
-    functions[name] = ensureRemote("RemoteFunction", name) :: RemoteFunction
+-- ── Handlers ─────────────────────────────────────────────────────────────
+-- Every action the client can fire must appear here. Unknown → err.unknownAction.
+
+local handlers: { [string]: (any, any, any) -> (boolean, string?, any?) } = {}
+
+handlers["build.place"] = function(profile, draft, payload)
+    local key = payload.catalogueId
+    local x, z, yaw = payload.x, payload.z, payload.yaw
+    if type(key) ~= "string"
+       or type(x) ~= "number" or type(z) ~= "number" or type(yaw) ~= "number" then
+        return false, "err.badArgs"
+    end
+    return PlotService.applyPlacement(profile, key, { x = x, y = 0, z = z }, yaw)
 end
 
--- ── Public profile shape ─────────────────────────────────────────────────
-
-local function toPublicProfile(profile): any
-    local job = profile.activeJobId and profile.jobs[profile.activeJobId] or nil
-    return {
-        userId = profile.userId,
-        displayName = profile.displayName,
-        credits = profile.credits,
-        followers = profile.followers,
-        rebirthLevel = profile.rebirthLevel,
-        unlocks = profile.unlocks,
-        crew = profile.crew,
-        placements = profile.placements,
-        activeJob = job,
-        tutorialState = profile.tutorialState,
-        partnership = profile.partnership,
-        settings = profile.settings,
-    }
+handlers["build.move"] = function(profile, draft, payload)
+    local pid = payload.placementId
+    local x, z, yaw = payload.x, payload.z, payload.yaw
+    if type(pid) ~= "string"
+       or type(x) ~= "number" or type(z) ~= "number" or type(yaw) ~= "number" then
+        return false, "err.badArgs"
+    end
+    return PlotService.applyMove(profile, pid, { x = x, y = 0, z = z }, yaw)
 end
+
+handlers["build.store"] = function(profile, draft, payload)
+    local pid = payload.placementId
+    if type(pid) ~= "string" then return false, "err.badArgs" end
+    return PlotService.applyStore(profile, pid)
+end
+
+handlers["build.recolour"] = function(profile, draft, payload)
+    local pid, slot, colour = payload.placementId, payload.colourSlot, payload.colourId
+    if type(pid) ~= "string" or type(slot) ~= "string" or type(colour) ~= "string" then
+        return false, "err.badArgs"
+    end
+    return PlotService.applyRecolour(profile, pid, slot, colour)
+end
+
+handlers["production.quote"] = function(profile, draft, _payload)
+    return ProductionService.quote(profile, draft)
+end
+
+handlers["production.start"] = function(profile, draft, payload)
+    local quoteId = payload.quoteId
+    if type(quoteId) ~= "string" then return false, "err.badArgs" end
+    return ProductionService.startFromQuote(profile, quoteId)
+end
+
+handlers["production.collect"] = function(profile, draft, payload)
+    local jobId = payload.jobId
+    if type(jobId) ~= "string" then return false, "err.badArgs" end
+    return ProductionService.collect(profile, jobId)
+end
+
+handlers["market.visit"] = function(profile, _draft, _payload)
+    local ok, reason = TradingGate.canVisitMarket(profile)
+    if not ok then return false, reason end
+    return true, "market.ready"   -- client performs TeleportService call
+end
+
+handlers["settings.save"] = function(profile, draft, _payload)
+    if type(draft) ~= "table" then return false, "err.badArgs" end
+    local re = draft.reducedEffects
+    if type(re) == "boolean" then profile.settings.reducedEffects = re end
+    return true
+end
+
+handlers["chart.refresh"] = function(_profile, _draft, _payload)
+    -- V2A. Acknowledge so client clears the pending indicator.
+    return true
+end
+
+-- Deferred milestones: acknowledge with a locked reason.
+local function lockedHandler(reason: string)
+    return function() return false, reason end
+end
+handlers["partnership.request"]     = lockedHandler("gate.v3")
+handlers["partnership.accept"]      = lockedHandler("gate.v3")
+handlers["partnership.decline"]     = lockedHandler("gate.v3")
+handlers["partnership.vote"]        = lockedHandler("gate.v3")
+handlers["partnership.dissolveQuote"] = lockedHandler("gate.v3")
+handlers["partnership.dissolve"]    = lockedHandler("gate.v3")
+handlers["market.query"]            = lockedHandler("gate.v2b")
+handlers["market.list"]             = lockedHandler("gate.v2b")
+handlers["market.cancel"]           = lockedHandler("gate.v2b")
+handlers["market.offer"]            = lockedHandler("gate.v2b")
+handlers["market.accept"]           = lockedHandler("gate.v2b")
+handlers["market.confirm"]          = lockedHandler("gate.v2b")
+handlers["report"]                  = lockedHandler("gate.m10")
+handlers["block"]                   = lockedHandler("gate.m10")
+handlers["unblock"]                 = lockedHandler("gate.m10")
+handlers["crew.hire"]               = lockedHandler("gate.m2b")
+handlers["crew.level"]              = lockedHandler("gate.m2b")
+handlers["crew.assign"]             = lockedHandler("gate.m2b")
+handlers["crew.unassign"]           = lockedHandler("gate.m2b")
+handlers["collection.query"]        = function() return true end    -- read-only
+handlers["collection.select"]       = function() return true end
+handlers["collection.favourite"]    = lockedHandler("gate.v2a")
+handlers["collection.salvageQuote"] = lockedHandler("gate.v2a")
+handlers["collection.salvage"]      = lockedHandler("gate.v2a")
+handlers["build.theme"]             = lockedHandler("gate.m2b")
 
 -- ── Rate limiting ────────────────────────────────────────────────────────
 
 local buckets: { [number]: { [string]: { tokens: number, lastRefill: number } } } = {}
 
-local function allow(player: Player, remoteName: string): boolean
-    local cfg = RateLimits.PerPlayer[remoteName]
+local function allow(player: Player, action: string): boolean
+    local cfg = RateLimits.PerPlayer[action]
     if not cfg then return true end
     local uid = player.UserId
     buckets[uid] = buckets[uid] or {}
-    local bucket = buckets[uid][remoteName]
+    local b = buckets[uid][action]
     local now = os.clock()
-    if not bucket then
-        bucket = { tokens = cfg.capacity, lastRefill = now }
-        buckets[uid][remoteName] = bucket
-    end
-    local elapsed = now - bucket.lastRefill
-    bucket.tokens = math.min(cfg.capacity, bucket.tokens + elapsed * cfg.refillPerSecond)
-    bucket.lastRefill = now
-    if bucket.tokens < 1 then return false end
-    bucket.tokens -= 1
+    if not b then b = { tokens = cfg.capacity, lastRefill = now }; buckets[uid][action] = b end
+    b.tokens = math.min(cfg.capacity, b.tokens + (now - b.lastRefill) * cfg.refillPerSecond)
+    b.lastRefill = now
+    if b.tokens < 1 then return false end
+    b.tokens -= 1
     return true
 end
 
--- ── Argument validation ──────────────────────────────────────────────────
+-- ── Intent intake ────────────────────────────────────────────────────────
 
-local function isVector3Data(v: any): boolean
-    return type(v) == "table"
-       and type(v.x) == "number" and type(v.y) == "number" and type(v.z) == "number"
-       and v.x == v.x and v.y == v.y and v.z == v.z
-end
+UIAction.OnServerEvent:Connect(function(player, intent)
+    if type(intent) ~= "table" then return end
+    local requestId = intent.requestId
+    local action    = intent.action
+    local revision  = intent.revision
+    local draft     = intent.draft
+    local payload   = intent.payload
+    if type(requestId) ~= "string" or #requestId > 64 then return end
+    if type(action) ~= "string" or #action > 64 then return end
+    if type(revision) ~= "number" or revision ~= revision then return end
+    if type(draft) ~= "table" or type(payload) ~= "table" then return end
 
-local function safeString(s: any, maxLen: number): string?
-    if type(s) ~= "string" then return nil end
-    if #s == 0 or #s > maxLen then return nil end
-    return s
-end
-
--- ── Wiring ───────────────────────────────────────────────────────────────
-
-PlayerDataService.init()
-
-events.RequestPlacement.OnServerEvent:Connect(function(player, catalogKey, position, rotationY)
-    if not allow(player, "RequestPlacement") then return end
-    local key = safeString(catalogKey, 64)
-    if not key or not isVector3Data(position) or type(rotationY) ~= "number" then return end
-    local ok, err = PlotService.requestPlacement(player, key, position, rotationY)
-    events.ActionResult:FireClient(player, "RequestPlacement", ok, err)
-end)
-
-events.RequestMove.OnServerEvent:Connect(function(player, placementId, position, rotationY)
-    if not allow(player, "RequestMove") then return end
-    local pid = safeString(placementId, 64)
-    if not pid or not isVector3Data(position) or type(rotationY) ~= "number" then return end
-    local ok, err = PlotService.requestMove(player, pid, position, rotationY)
-    events.ActionResult:FireClient(player, "RequestMove", ok, err)
-end)
-
-events.RequestStore.OnServerEvent:Connect(function(player, placementId)
-    if not allow(player, "RequestStore") then return end
-    local pid = safeString(placementId, 64)
-    if not pid then return end
-    local ok, err = PlotService.requestStore(player, pid)
-    events.ActionResult:FireClient(player, "RequestStore", ok, err)
-end)
-
-events.RequestStartJob.OnServerEvent:Connect(function(player, categoryId, crewIds, placementIds)
-    if not allow(player, "RequestStartJob") then return end
-    local cat = safeString(categoryId, 32)
-    if not cat or type(crewIds) ~= "table" or type(placementIds) ~= "table" then return end
-    if #crewIds > 4 or #placementIds > 12 then return end
-    for _, id in ipairs(crewIds) do
-        if not safeString(id, 64) then return end
-    end
-    for _, id in ipairs(placementIds) do
-        if not safeString(id, 64) then return end
-    end
-    local ok, err = ProductionService.requestStart(player, cat, crewIds, placementIds)
-    events.ActionResult:FireClient(player, "RequestStartJob", ok, err)
-end)
-
-events.RequestCollectJob.OnServerEvent:Connect(function(player, jobId)
-    if not allow(player, "RequestCollectJob") then return end
-    local jid = safeString(jobId, 64)
-    if not jid then return end
-    local ok, err = ProductionService.requestCollect(player, jid)
-    events.ActionResult:FireClient(player, "RequestCollectJob", ok, err)
-end)
-
-functions.GetPublicProfile.OnServerInvoke = function(player: Player)
     local profile = PlayerDataService.getProfile(player)
-    if not profile then return nil end
-    return toPublicProfile(profile)
-end
+    if not profile then
+        reply(player, requestId, false, "err.notLoaded")
+        return
+    end
+
+    -- Idempotency: same requestId seen before on this session is a duplicate.
+    profile._session.processedRequests = profile._session.processedRequests or {}
+    if profile._session.processedRequests[requestId] then
+        reply(player, requestId, false, "err.duplicateRequest")
+        return
+    end
+    profile._session.processedRequests[requestId] = os.time()
+
+    -- Prune old request IDs (keep last 200 or within 5 minutes).
+    local cutoff = os.time() - 300
+    local count = 0
+    for id, ts in pairs(profile._session.processedRequests) do
+        count += 1
+        if ts < cutoff then profile._session.processedRequests[id] = nil end
+    end
+
+    if not allow(player, action) then
+        reply(player, requestId, false, "err.rateLimit")
+        return
+    end
+
+    local handler = handlers[action]
+    if not handler then
+        reply(player, requestId, false, "err.unknownAction")
+        return
+    end
+
+    local ok, messageKey, args = handler(profile, draft, payload)
+    reply(player, requestId, ok, messageKey, args)
+    if ok then
+        PlayerDataService.markDirty(player)
+        pushState(player)
+    end
+end)
 
 -- ── Join / leave ─────────────────────────────────────────────────────────
 
 local function onPlayerAdded(player: Player)
-    local ok, err = PlayerDataService.loadForPlayer(player)
+    local ok = PlayerDataService.loadForPlayer(player)
     if not ok then
-        events.ToastMessage:FireClient(player, "error",
-            "Your data could not be loaded. Please rejoin in a minute. (" .. tostring(err) .. ")")
+        reply(player, "session", false, "err.loadFailed")
         return
     end
-
-    ProductionService.reconcileOnJoin(player)
-
     local profile = PlayerDataService.getProfile(player)
     if profile then
-        events.ProfileReplicated:FireClient(player, toPublicProfile(profile))
+        ProductionService.reconcileOnJoin(profile)
+        PlayerDataService.markDirty(player)
     end
+    pushState(player)
 end
 
 Players.PlayerAdded:Connect(onPlayerAdded)
-for _, p in ipairs(Players:GetPlayers()) do
-    task.spawn(onPlayerAdded, p)
-end
-
-Players.PlayerRemoving:Connect(function(player)
-    buckets[player.UserId] = nil
+for _, p in ipairs(Players:GetPlayers()) do task.spawn(onPlayerAdded, p) end
+Players.PlayerRemoving:Connect(function(p)
+    buckets[p.UserId] = nil
+    revisions[p.UserId] = nil
 end)
 
-print("[Signal Tycoon] Server bootstrap complete.")
+PlayerDataService.init()
+print("[Signal Tycoon] M2 bootstrap ready.")
